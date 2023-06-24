@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GeradorSqlIA {
 
         private static final String OPENAI_API_URL = "https://api.openai.com/v1/engines/davinci/completions";
-        private static final String OPENAI_API_TOKEN = "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";
+        private static final String OPENAI_API_TOKEN = "XXXXXXX";
 
         @GetMapping("/generate-sql")
         public ResponseEntity<String> generateSqlQuery() {
