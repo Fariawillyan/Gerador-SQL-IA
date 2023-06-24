@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+
+<head>
+    <title>CRUD Form localStorage</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <form id="frmCadastro">
+        <section>
+            <h2>Gerador de código SQL</h2>
+
+            <div class="center-div">
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Selecione a base de dados</label>
+                        <select id="baseDados" class="form-select ajuste-select" aria-label="Default select example">
+                            <option selected>Base de dados</option>
+                            <option value="bradesco">Bradesco</option>
+                            <option value="cassi">Cassi</option>
+                            <option value="mediservice">Mediservice</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Selecione a tabela</label>
+                        <select id="tabela" class="form-select multiplaSelecao" aria-label="Default select example" multiple>                            
+                            <option value="departaments">departaments</option>
+                            <option value="Salary_Payments">Salary_Payments</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Selecione os campos</label>
+                        <select id="campos" class="form-select multiplaSelecao" aria-label="Default select example" multiple>                            
+                            <option value="id">id</option>
+                            <option value="name">nome</option>
+                            <option value="departament_id">departament_id</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Que tipo de query voce quer?</label>
+                        <select id="tipoQuery" class="form-select multiplaSelecao" aria-label="Default select example" multiple>                            
+                            <option value="CREATE">CREATE</option>
+                            <option value="SELECT">SELECT</option>
+                            <option value="UPDATE">UPDATE </option>
+                            <option value="INSERT">INSERT</option>
+                            <option value="ALTER TABLE">ALTER TABLE</option>
+                            <option value="DROP TABLE">DROP TABLE</option>                            
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput" class="form-label">Criterio SQL</label>
+                        <input class="form-control" type="text" id="criterio" placeholder="Digite o criterio para gerar a Query!">
+                    </div>
+                </div>
+                <div class="row" style=" padding-left: 10px;">                    
+                    <button type="button" onclick="enviarDados()" class="btn btn-primary btn-criar-query botao-criacao">Criar Query</button>                
+                </div>
+            </div>
+
+            <hr> 
+            <h6>Query solicitada</h6>
+            <div class="center-div">
+                <textarea class="form-control" id="resultadoQuery" rows="3"></textarea>
+            </div>      
+
+            
+
+
+
+            <script src="script.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>                   
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+            <script> 
+            $(document).ready(function() {
+                $('.multiplaSelecao').select2();
+
+                                });
+            </script>
+            
+</body>
+
+</html>

@@ -18,13 +18,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+
 @RestController
 @RequestMapping("/api/")
+@CrossOrigin("*")
 public class GeradorSqlIA {
 
         private static final Logger logger = LoggerFactory.getLogger(GeradorSqlIA.class);
         private static final String OPENAI_API_URL = "https://api.openai.com/v1/engines/davinci/completions";
-        private static final String OPENAI_API_TOKEN = "Passar CHAVE aqui"; //TESTAR PROJETO VIA POSTMAN. JSON Exemplo no resourses
+        private static final String OPENAI_API_TOKEN = "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"; //TESTAR PROJETO VIA POSTMAN. JSON Exemplo no resourses
 
         @PostMapping("/generate-sql")
         public ResponseEntity<String> generateSqlQuery(@RequestBody String requestBody) {
@@ -33,7 +35,7 @@ public class GeradorSqlIA {
 
                         // Define o token de autenticação no cabeçalho da solicitação
                         request.addHeader("Authorization", "Bearer " + OPENAI_API_TOKEN);
-                        request.addHeader("model", "text-curie-001");
+                        request.addHeader("model", "text-davinci-003");
 
                         // Define o corpo da solicitação
                         StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
