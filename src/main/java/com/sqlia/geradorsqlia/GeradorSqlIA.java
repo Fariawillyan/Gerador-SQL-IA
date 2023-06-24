@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GeradorSqlIA {
 
         private static final String OPENAI_API_URL = "https://api.openai.com/v1/engines/davinci/completions";
-        private static final String OPENAI_API_TOKEN = "xxx";
+        private static final String OPENAI_API_TOKEN = "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";
 
         @GetMapping("/generate-sql")
         public ResponseEntity<String> generateSqlQuery() {
@@ -29,17 +29,23 @@ public class GeradorSqlIA {
 
                 // Defina o token de autenticação no cabeçalho da solicitação
                 request.addHeader("Authorization", "Bearer " + OPENAI_API_TOKEN);
-
-                // Defina o parâmetro do modelo
-                request.addHeader("model", "text-davinci-003");
+                request.addHeader("model", "text-curie-001");
 
                 // Defina o corpo da solicitação
-                String requestBody = "{\n" +
-                        " \"prompt\": \"era uma vez \",\n" +
-                        "  \"max_tokens\": 50\n" +
-                        "}";
+                String requestBody = """
+                {
+                  "prompt": "### Postgres SQL tables, with their properties:\\n#\\n# Employee(id, name, department_id)\\n# Department(id, name, address)\\n# Salary_Payments(id, employee_id, amount, date)\\n#\\n### A query to list the names of the departments which employed more than 10 employees in the last 3 months\\nSELECT",
+                  "temperature": 0,
+                  "max_tokens": 150,
+                  "top_p": 1.0,
+                  "frequency_penalty": 0.0,
+                  "presence_penalty": 0.0,
+                  "stop": ["#", ";"]
+                }
+                """;
                 StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
                 request.setEntity(entity);
+
 
                 try {
                         HttpResponse response = httpClient.execute(request);
