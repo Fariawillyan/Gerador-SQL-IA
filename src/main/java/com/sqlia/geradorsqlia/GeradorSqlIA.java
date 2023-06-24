@@ -1,46 +1,49 @@
 package com.sqlia.geradorsqlia;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
+import java.net.http.HttpClient;
 
 public class GeradorSqlIA {
-        public static void main(String[] args) throws IOException {
-                // Parâmetros da solicitação
-                String url = "https://api.openai.com/v1/engines/davinci-codex/completions";
-                String apiKey = "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";  // Substitua YOUR_API_KEY pelo seu token de autenticação da API
 
-                // Construir a solicitação
-                URL apiUrl = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Authorization", "Bearer " + apiKey);
-                connection.setDoOutput(true);
+        public static void main(String[] args) {
+                CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+                HttpPost request = new HttpPost("https://api.openai.com/v1/engines/davinci/completions");
 
-                // Definir os parâmetros da solicitação
-                String requestData = "{\"prompt\": \"Query de exemplo\", \"max_tokens\": 100}";
+                // Defina o token de autenticação no cabeçalho da solicitação
+                request.addHeader("Authorization", "Bearer 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");
+                //criar chave secreta no perfil login openIA
 
-                // Enviar a solicitação
-                try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
-                        outputStream.writeBytes(requestData);
-                        outputStream.flush();
-                }
+                // Defina o parâmetro do modelo
+                request.addHeader("model", "text-davinci-003");
 
-                // Ler a resposta da solicitação
-                StringBuilder response = new StringBuilder();
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                                response.append(line);
+                // Defina o corpo da solicitação
+                String requestBody = "{\n" +
+                        " \"prompt\": \"select from where \",\n" +
+                        "  \"max_tokens\": 50\n" +
+                        "}";
+                StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                request.setEntity(entity);
+
+                try {
+                        HttpResponse response = httpClient.execute(request);
+                        int statusCode = response.getStatusLine().getStatusCode();
+                        System.out.println("Response Code: " + statusCode);
+
+                        HttpEntity responseEntity = response.getEntity();
+                        if (responseEntity != null) {
+                                String responseBody = EntityUtils.toString(responseEntity);
+                                System.out.println("Response Body: " + responseBody);
                         }
+                } catch (Exception e) {
+                        e.printStackTrace();
                 }
-
-                // Processar a resposta
-                String jsonResponse = response.toString();
-                System.out.println("Resposta: " + jsonResponse);
         }
 }
